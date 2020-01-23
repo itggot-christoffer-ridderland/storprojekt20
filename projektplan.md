@@ -18,16 +18,16 @@ spela om 3:e plats.
 
 [![erdiagram.png](https://i.postimg.cc/pr8B6q7n/erdiagram.png)](https://postimg.cc/T5dmyqTR)
 
-_app.rb:_ sköter logiken relaterat till slim, sinatra och sköter vad olika routes ska göra
-_functions.rb:_ sköter övrig logik som är relaterat till bl.a lösenord (bcrypt) och databasen(SQLite)
-_views:_ innehåller alla _.slim_ filer
-_views/layout.slim:_ allt som skall finnas på alla sidor, t.ex header
-_views/index.slim:_ huvudsida
-_views/users:_ alla _.slim_ filer relaterat till användare
-_views/tournaments:_ alla _.slim_ filer relaterat till turneringar
-_public:_ det som användaren kommer kunna ha tillgång till
-_public/css:_ CSS
-_public/js:_ eventuell javasctipt
-_public/img:_ bilder och svgs
-_db:_ här ligger databasen
-_db/braketz.db:_ Databas
+_app.rb:_ sköter logiken relaterat till slim, sinatra och sköter vad olika routes ska göra  
+_functions.rb:_ sköter övrig logik som är relaterat till bl.a lösenord (bcrypt) och databasen(SQLite)  
+_views:_ innehåller alla _.slim_ filer  
+_views/layout.slim:_ allt som skall finnas på alla sidor, t.ex header  
+_views/index.slim:_ huvudsida  
+_views/users:_ alla _.slim_ filer relaterat till användare  
+_views/tournaments:_ alla _.slim_ filer relaterat till turneringar  
+_public:_ det som användaren kommer kunna ha tillgång till  
+_public/css:_ CSS  
+_public/js:_ eventuell javasctipt  
+_public/img:_ bilder och svgs  
+_db:_ här ligger databasen  
+_db/braketz.db:_ Databas  
