@@ -8,5 +8,17 @@ html lang="en"
         title Document
     body
         header  
-            img src="img/logo.png" alt="#"/
+            img.logo src="img/logo.png" alt="#"/
             - if session[:staus] != false
+                article.login login
+                article.register register
+            - else
+                article.logout
+                img.profile-picture src="#{picture_link}" alt="#"
+                p.username = username
+                p.points = points
+        footer
+            ul
+                li coolboy@braketz.com
+                li coolboystreet 69, Gothenburg, Sweden
+    ==yield
