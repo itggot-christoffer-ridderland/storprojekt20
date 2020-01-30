@@ -9,14 +9,16 @@ html lang="en"
     body
         header  
             img.logo src="img/logo.png" alt="#"/
-            - if session[:staus] != false
-                article.login login
-                article.register register
-            - else
-                article.logout
-                img.profile-picture src="#{picture_link}" alt="#"
-                p.username = username
-                p.points = points
+            img.profile-picture src="http://img3.wikia.nocookie.net/__cb20130203110410/cswikia/images/0/0e/Phoenix_closeup.png" alt="#"
+            p.username username
+            p.points points
+            article.login
+                p login    
+            article.not-login
+                -if session[:status] == false
+                    p register
+                -else
+                    p log out
         footer
             ul
                 li coolboy@braketz.com

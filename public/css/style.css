@@ -1,21 +1,108 @@
+:root{
+    --black:#211B15;
+    --wood:#FFAE52;
+    --sand:#E6BD8E;
+    --brown:#664621;
+    --latte:#B3936F;
+    --milk:#FCF0DC;
+}
+
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+    "header"
+    "main"
+    ;
+
+}
 header{
-    width: 1vw;
-    height: 150px;
+    grid-area: header;
+    width: 100vw;
+    height: auto;
+    display: grid;
+    grid-template-columns: 5% 15% 60% 10% 10% ;
+    grid-template-rows: 30px 40px 40px 30px;
+    grid-template-areas:
+    ". . . . ."
+    "profile name logo sign-up sign-in"
+    "profile points logo sign-up sign-in"
+    ". . . . ."
+    ;
+
 }
 
 img.logo{
-    width: 50%;
+    grid-area: logo;
+    justify-self: center;
+    width: 30%;
 }
 
-img.profile-picture{}
+img.profile-picture{
+    grid-area: profile;
+    border-radius: 999rem;
+    width: 90%;
+    align-self:center;
+    margin-left: .5rem;
+}
 
-.username{}
+.username{
+    grid-area: name;
+    margin-left: .5rem;
+    align-self:center;
+}
 
-.points{}
+.points{
+    grid-area: points;
+    margin-left: .5rem;
+    align-self:center;
+}
 
-art.login{}
+article.login{
+    grid-area: sign-in;
+    justify-self: flex-start;
+    align-self: center;
+    border: medium;
+    border-color: var(--black);
+    background-color: var(--latte);
+    padding: .2rem .5rem 0.2rem .5rem;
+    margin: .5rem;
+    border-radius: 5px;
+    
+}
+article.login p{
+    margin: 0;
+}
 
-art.logout{}
+article.not-login{
+    grid-area: sign-up;
+    justify-self: flex-end;
+    align-self: center;
+    border: medium;
+    border-color: var(--black);
+    background-color: var(--latte);
+    padding: .2rem .5rem 0.2rem .5rem;
+    margin: .5rem;
+    border-radius: 5px;
+    
+}
+article.not-login p{
+    margin: 0;
+}
 
-art.register{}
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 
+}
+
+main{
+    grid-area: main;
+    margin: 0 15% 0 15%;
+}
