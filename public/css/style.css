@@ -6,6 +6,10 @@
     --latte:#B3936F;
     --milk:#FCF0DC;
 }
+.a-class{
+    text-decoration: none;
+    color: black;
+}
 
 body{
     height: 100%;
@@ -74,7 +78,7 @@ article.login{
     border-radius: 5px;
     
 }
-article.login p{
+article.login a{
     margin: 0;
 }
 
@@ -90,7 +94,7 @@ article.not-login{
     border-radius: 5px;
     
 }
-article.not-login p{
+article.not-login a{
     margin: 0;
 }
 
