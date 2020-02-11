@@ -6,11 +6,14 @@ enable :sessions
 
 $db = SQLite3::Database.new('db/braketz.db')
 $db.results_as_hash = true
-
 def setup()
-    status = false
-    return status
+    result_hash={
+    status: false,
+    time: []
+        }
 end
+
+
 
 def register_validation(username, password, confirm)
     if $db.execute("SELECT id FROM users WHERE username=?", username) != []
@@ -33,10 +36,15 @@ def register_validation(username, password, confirm)
     end
 end
 
+def login_validation(username, password)
+
+end
+
 before do
     if session[:status] == nil
-        session[:status] = setup()
-        redirect('/')
+        hash = setup()
+        session[:status] = hash[:status]
+        session[:time] = hash[:time]
     end
 end
 
@@ -53,7 +61,6 @@ post('/create-account') do
     password = params[:password]
     confirm = params[:confirm_password]
     username = params[:username]
-    p password
     if register_validation(username, password, confirm) == true
 
         password_digest = BCrypt::Password.create(params[:password])
@@ -66,12 +73,15 @@ end
 
 get('/login') do
 
+    slim(login,locals:{})
 end
 
 post("/login") do
     password = params[:password]
     username = params[:username]
-    if login_validation(username, password, confirm) == true
+    
+
+    if login_validation(username, password, $time) == true
 
         password_digest = BCrypt::Password.create(params[:password])
         $db.execute("INSERT INTO users (username, password_digest, points, admin) VALUES (?, ?, ?, ?)", [username, password_digest, 0, (username == "admin" ? 1 : 0)])
