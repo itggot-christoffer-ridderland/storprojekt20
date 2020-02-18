@@ -53,7 +53,6 @@ post('/create-account') do
     password = params[:password]
     confirm = params[:confirm_password]
     username = params[:username]
-    p password
     if register_validation(username, password, confirm) == true
 
         password_digest = BCrypt::Password.create(params[:password])
