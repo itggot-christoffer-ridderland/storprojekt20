@@ -2,6 +2,7 @@ require 'sinatra'
 require 'slim'
 require 'sqlite3'
 require 'bcrypt'
+require 'byebug'
 require_relative './model.rb'
 enable :sessions
 
@@ -14,17 +15,31 @@ def setup()
         return result_hash
 end
 
-def time_checker(session[:time])
-    t = session[:time].reverse
-    (t.length >= 3 ? value = t[1] * 2 - (t[2] + t[3)) : value = 0)
-    (value < 30 ? true : false)
+
+def time_checker(time)
+    t = time.reverse
+
+    if t.length >= 3
+        value = t[1] * 2 - (t[2] + t[3])
+    else
+        value = 0
+    end
+
+    if value < 30
+        true
+    else
+        false
+    end
+
+
 end
 
 before do
     if session[:status] == nil
-        session[:hash] = setup()
+        hash = setup()
         session[:status] = hash[:status]
         session[:time] = hash[:time]
+        redirect("/")
     end
 end
 
@@ -41,9 +56,16 @@ post('/create-account') do
     password = params[:password]
     confirm = params[:confirm_password]
     username = params[:username]
+
     validation_result = register_validation(username, password, confirm)
+
     if validation_result == true
-        WRITE
+
+        columns=["username", "password_digest", "points", "admin", "profile_picture"]
+        columns=array_to_string(columns)
+        content=[username, digest_password(password), 0, 0, nil]
+        #content=array_to_string(content)
+        insert_in_db_user("users", columns, content)
     else
         session[:error] == validation_result
         redirect('/error')

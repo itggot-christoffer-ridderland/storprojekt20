@@ -1,14 +1,35 @@
 $db = SQLite3::Database.new('db/braketz.db')
 $db.results_as_hash = true
+$pw = BCrypt::Password
+
+
 
 #DATABASE FUNCTIONS
 def select_from_db(table, column)
+
 end
 
 def inner_join(table1, table2, column)
 end
 
-def insert_in_db(table, column, content)
+def insert_in_db_user(table, column, content)
+    #byebug
+    $db.execute("
+        INSERT INTO #{table} (#{column}) 
+        VALUES (?, ?, ?, ?, ?)", content )
+
+end
+
+def array_to_string(array)
+
+    string = ""
+
+    array.each do |a|
+        string += a.to_s + ", "
+    end
+
+    return string[0...-2]
+
 end
 
 
@@ -34,6 +55,10 @@ def login_validation(username, password)
 end
 
 #USER FUNCTIONS
+
+def digest_password(password)
+    return $pw.create(password)
+end
 
 
 #TOURNAMENT FUNCTIONS
