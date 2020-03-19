@@ -58,19 +58,20 @@ get('/') do
     slim(:index, locals:{user:session[:user_hash]})
 end
 
-get('/register') do
-    slim(:"user/register", locals:{user:session[:user_hash]} )
+
+get('/user/new') do
+    slim(:"user/new", locals:{user:session[:user_hash]} )
 end
 
-post('/create-account') do
+post('/user/create') do
     password = params[:password]
     confirm = params[:confirm_password]
     username = params[:username]
-
+    
     validation_result = register_validation(username, password, confirm)
-
+    
     if validation_result == true
-
+        
         columns=["username", "password_digest", "points", "admin", "profile_picture"]
         columns=array_to_string(columns)
         content=[username, digest_password(password), 0, 0, nil]
@@ -83,16 +84,16 @@ post('/create-account') do
     redirect('/')
 end
 
-get('/login') do
-
+get('/user/login') do
+    
     slim(:"user/login",locals:{user:session[:user_hash]})
 end
 
-post('/login') do
+post('/user/login') do
     password = params[:password]
     username = params[:username]
     session[:time] << Time.now.to_i
-
+    
     if login_validation(username, password) == true && time_checker(session[:time]) == true
         session[:id] = get_id_from_username(username)[0]["id"]
         session[:user_hash] = get_user_from_id(session[:id])
@@ -103,10 +104,16 @@ post('/login') do
     end
 end
 
-get('tournament/create') do
-    slim(:"tournament/create", locals:{user:session[:user_hash]})
-end
 
 get('/error') do
-    slim(:error)
+    slim(:error, locals:{user:session[:user_hash]})
 end
+
+get('/tournament/new') do
+    slim(:"tournament/new", locals:{user:session[:user_hash]})
+end
+
+#get('/*') do
+#    session[:error] = "404 page not found"
+#    redirect('/error')
+#end

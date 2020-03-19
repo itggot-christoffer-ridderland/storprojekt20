@@ -108,3 +108,9 @@ main{
     grid-area: main;
     margin: 0 15% 0 15%;
 }
+
+article.new-tournament{
+    width: 8.3rem;
+    height: 1.3rem;
+    background-color: var(--latte)
+}
