@@ -5,20 +5,28 @@ $pw = BCrypt::Password
 
 
 #DATABASE FUNCTIONS
-def select_from_db(table, column)
-
+def get_user_from_id(id)
+    return $db.execute("SELECT * FROM users WHERE id = ?", id)[0]
 end
 
+def get_id_from_username(username)
+    id = $db.execute("SELECT id FROM users WHERE username = ?", username)
+    return id
+end
+
+def get_password_digest(username)
+    return $db.execute("SELECT password_digest FROM users WHERE username = ?", username)[0]["password_digest"]
+end
 def inner_join(table1, table2, column)
 end
 
 def insert_in_db_user(table, column, content)
-    #byebug
     $db.execute("
         INSERT INTO #{table} (#{column}) 
         VALUES (?, ?, ?, ?, ?)", content )
-
 end
+
+
 
 def array_to_string(array)
 
@@ -51,7 +59,16 @@ def register_validation(username, password, confirm)
 end
 
 def login_validation(username, password)
-
+    if get_id_from_username(username) == []
+        return error_message = "user does not exist"
+    end
+    password_digest = get_password_digest(username)
+    p password_digest
+    if $pw.new(password_digest) == password
+        return true
+    else
+        return error_message = "password is incorrect"
+    end
 end
 
 #USER FUNCTIONS

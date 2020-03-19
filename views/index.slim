@@ -1,2 +1,7 @@
 main
-    p coolio
+    - if user == nil
+        p coolio
+
+    -else
+        form action="/tournament/create" method="get"
+            input type="submit" value="Create Tournament"/

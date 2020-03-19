@@ -9,10 +9,10 @@ html lang="en"
     body
         header  
             img.logo src="img/logo.png" alt="#"/
-            - if session[:status] == true
-                img.profile-picture src="http://img3.wikia.nocookie.net/__cb20130203110410/cswikia/images/0/0e/Phoenix_closeup.png" alt="#"
-                p.username username
-                p.points points
+            - if user != nil  
+                img.profile-picture src="#{user["profile_picture"]}" alt="#"
+                p.username #{user["username"]}
+                p.points #{user["points"]}
                 article.not-login
                     a.a-class href=('/logout') log out
             - else

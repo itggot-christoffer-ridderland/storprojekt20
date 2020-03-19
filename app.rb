@@ -10,7 +10,8 @@ enable :sessions
 def setup()
     result_hash = {
     status: false,
-    time: []
+    time: [],
+    user_hash: nil
         }
         return result_hash
 end
@@ -39,17 +40,26 @@ before do
         hash = setup()
         session[:status] = hash[:status]
         session[:time] = hash[:time]
+        session[:user_hash] = hash[:user_hash]
         redirect("/")
+    end
+    if session[:status] != true && session[:id] != []
+        session[:status] = true
     end
 end
 
 get('/') do
-    
-    slim(:index, locals:{})
+    if session[:id] != nil
+        if session[:user_hash]["profile_picture"] == nil
+            session[:user_hash]["profile_picture"] = "http://img3.wikia.nocookie.net/__cb20130203110410/cswikia/images/0/0e/Phoenix_closeup.png"
+        end 
+    end
+ 
+    slim(:index, locals:{user:session[:user_hash]})
 end
 
 get('/register') do
-    slim(:"user/register", locals:{} )
+    slim(:"user/register", locals:{user:session[:user_hash]} )
 end
 
 post('/create-account') do
@@ -75,19 +85,26 @@ end
 
 get('/login') do
 
-    slim(login,locals:{})
+    slim(:"user/login",locals:{user:session[:user_hash]})
 end
 
-post("/login") do
+post('/login') do
     password = params[:password]
     username = params[:username]
-    
-    if login_validation(username, password, $time) == true
+    session[:time] << Time.now.to_i
 
+    if login_validation(username, password) == true && time_checker(session[:time]) == true
+        session[:id] = get_id_from_username(username)[0]["id"]
+        session[:user_hash] = get_user_from_id(session[:id])
+        redirect('/')
     else
-    
+        session[:error] = error_message
         redirect('/error')
     end
+end
+
+get('tournament/create') do
+    slim(:"tournament/create", locals:{user:session[:user_hash]})
 end
 
 get('/error') do

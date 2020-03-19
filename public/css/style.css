@@ -49,20 +49,18 @@ img.logo{
 img.profile-picture{
     grid-area: profile;
     border-radius: 999rem;
-    width: 90%;
+    width: 100px;
     align-self:center;
-    margin-left: .5rem;
 }
 
 .username{
     grid-area: name;
-    margin-left: .5rem;
     align-self:center;
 }
 
 .points{
     grid-area: points;
-    margin-left: .5rem;
+    margin-left: 1rem;
     align-self:center;
 }
 
