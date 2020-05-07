@@ -82,7 +82,7 @@ end
 
 def register_tournament(name, players, admin)
     $db.execute("INSERT INTO tournaments VALUES(?, ?, ?)", name, "swiss", admin)
-    #id = $db.execute("SELECT id FROM tournaments WHERE name=?"name)
+    id = $db.execute("SELECT id FROM tournaments WHERE name=?",name)
     players.each do |p|
         $db.execute("INSERT INTO tour_user_relations VALUES(?, ?)", id, p)
     end 
