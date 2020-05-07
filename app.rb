@@ -113,6 +113,10 @@ get('/tournament/new') do
     slim(:"tournament/new", locals:{user:session[:user_hash]})
 end
 
+post('tournament/create') do
+    
+end
+
 #get('/*') do
 #    session[:error] = "404 page not found"
 #    redirect('/error')

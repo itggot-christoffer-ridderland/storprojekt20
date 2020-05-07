@@ -1,7 +1,7 @@
 main
     form action="/tournament/create" method="post"
-        input# type="text" name=""/
-        input# type="text" name=""/
+        input# type="text" name="name" placeholder="Tournament Name:"/
+        input# type="text" name="users" placeholder="Users:(separated with comma)"/
         br
         input type="radio" id="swiss" name="type" value="swiss"
         label for="swiss" swiss
@@ -11,3 +11,4 @@ main
         br
         input type="radio" id="finals" name="type" value="finals"
         label for="finals" finals
+        input type="submit" value="CREATE!"/
