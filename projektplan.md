@@ -3,12 +3,10 @@
 ## 1. Projektbeskrivning (Beskriv vad sidan ska kunna göra)  
 
 Appen skall vara en **bracket-app** där användare skall kunna 
-skapa och delta i olika typer av **turneringar** i olika format.
+skapa och delta i  **turneringar**.  
 Appen skall även spara färdiga **brackets** för inloggade användare
 där deltagare och host skall kunna komma åt sina turneringar från
-sin profil. Det skall finnas olika **turneringstyper** och inställningar
-där hosten får välja om det t.ex ska ges ut bye och om man skall
-spela om 3:e plats.
+sin profil. Bara skaparen och admin skall kunna tag bort turneringen.  
 
 ## 2. Vyer
 
@@ -30,3 +28,12 @@ spela om 3:e plats.
 **_public/img:_** bilder och svgs  
 **_db:_** här ligger databasen  
 **_db/braketz.db:_** Databas  
+
+
+## 4. Domänbeskrivning
+
+En oinloggad användare kan bara skapa konto och logga in  
+När en användare loggat in kan den skapa turneringar, visa sina turneringar  
+samt tag bort turneringar de själv har skapat  
+De kan även logga ut och tag bort sitt koto  
+En admin kan även tag bort andras turneringar
