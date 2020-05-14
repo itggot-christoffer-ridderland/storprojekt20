@@ -54,6 +54,9 @@ before do
     end
 end
 
+# Display Landing page
+#
+#
 get('/') do
     if session[:id] != nil
         if session[:user_hash]["profile_picture"] == nil
@@ -64,6 +67,10 @@ get('/') do
     slim(:index, locals:{user:session[:user_hash]})
 end
 
+
+#Makes a user log out
+#
+#
 get('/logout') do
     session[:id] = nil
     hash = setup()
@@ -73,10 +80,19 @@ get('/logout') do
     redirect("/")
 end
 
+# Form for registering a user
+#
+#
+#
 get('/user/new') do
     slim(:"user/new", locals:{user:session[:user_hash]} )
 end
 
+# Registers a user
+# @param [String] password, the chosen password
+# @param [String] confirm, to make sure there are no typos in the password
+# @param [String] username, the chosen username
+# @param [Boolean] validation_result, True if the registration could be completed else False
 post('/user/create') do
     password = params[:password]
     confirm = params[:confirm_password]
@@ -98,11 +114,20 @@ post('/user/create') do
     redirect('/')
 end
 
+
+# Takes a user to the login site
+#
+#
 get('/user/login') do
     
     slim(:"user/login",locals:{user:session[:user_hash]})
 end
 
+
+# Logs a user in
+# @param [String] password, the entered password
+# @param [String] username, the entered username
+# @param [Array] Session[:time], array of the time stamps log-in attempts were commited
 post('/user/login') do
     password = params[:password]
     username = params[:username]
@@ -122,6 +147,12 @@ post('/user/login') do
     end
 end
 
+# Showes you profile
+#
+# @param [Integer] session[:id], the id of the user
+# @param [Array] tournaments, all the tournaments the user is participating in
+#
+#
 get('/user/show') do
     tournaments = get_tour_from_user(session[:id])
     ids = []
@@ -138,11 +169,17 @@ get('/user/show') do
     slim(:"user/show",locals:{user:session[:user_hash],ids:ids,names:names} )
 end
 
+# Takes a user to the page where you delete your account
+#
+#
 get('/user/destroy') do
     slim(:"user/destroy",locals:{user:session[:user_hash]})
 end
 
-
+# Deletes account and logs out
+#
+# @param [Integer] session[:id], id of the user who wishes to be deleted
+#
 post('/user/destroy') do
     delete_user(session[:id])
     session[:id] = nil
@@ -153,6 +190,14 @@ post('/user/destroy') do
     redirect("/")
 end
 
+# Shows a Tournament
+#
+# @param [integer] :id, the id of the tournament
+#
+# @param [Array] tournament, all the info about the tournament
+#
+# @users [Array] users, The users who participate in the tournament
+#
 get('/tournament/show/:id') do
     id = params[:id].to_i
     session[:tour_id] = id
@@ -168,28 +213,49 @@ get('/tournament/show/:id') do
     end
     slim(:"tournament/show",locals:{user:session[:user_hash],id:session[:id], tournament:tournament, users:users})
 end
+
+# Deletes a tournament
+#
+# @param [Integer] id, tournament's id
+#
 post('/tournament/destroy') do
     id = session[:tour_id]
     delete_tournament(id)
     redirect("/")
 end
+
+# Deletes a Tournament
+#
+#
+#
 get('/tournament/destroy') do
     slim(:"/tournament/destroy", locals:{user:session[:user_hash]})
 end
 
+# Takes you to the error page and desplays an error message
+#
+#
 get('/error') do
     slim(:error, locals:{user:session[:user_hash]})
 end
 
+# Form for creating a new tournament
+#
+#
 get('/tournament/new') do
     slim(:"tournament/new", locals:{user:session[:user_hash]})
 end
 
+# Creates a new tournament
+#
+# @param [String] users, the users
+# @param [String] name, the tournament's name
+#
 post('/tournament/create') do
     users = params[:users]
     name = params[:name]
 
-    id = register_tournament(name, users, session[:user_hash]["id"] )
+    register_tournament(name, users, session[:user_hash]["id"] )
     
     #redirect('/tournament/show/#{id}')
     redirect('/user/show')
