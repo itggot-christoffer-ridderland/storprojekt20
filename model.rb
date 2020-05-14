@@ -78,14 +78,59 @@ def digest_password(password)
 end
 
 
+def delete_user(id)
+    $db.execute("DELETE FROM users WHERE id=?",id)
+    ids = $db.execute("SELECT id FROM tournaments WHERE judge_id=?",id)
+    if ids.length != 0
+        ids.each do |id|
+            $db.execute("DELETE FROM tour_user_relations WHERE tournament_id=?", id.first["id"])
+        end
+    end
+    $db.execute("DELETE FROM tournaments WHERE judge_id=?",id)
+    $db.execute("DELETE FROM tour_user_relations WHERE user_id=?",id)
+    $db.execute("SELECT id FROM tournaments WHERE judge_id=?",id)
+end
 #TOURNAMENT FUNCTIONS
 
 def register_tournament(name, players, admin)
-    $db.execute("INSERT INTO tournaments VALUES(?, ?, ?)", name, "swiss", admin)
-    id = $db.execute("SELECT id FROM tournaments WHERE name=?",name)
+    $db.execute("INSERT INTO tournaments (game, format, judge_id) VALUES(?, ?, ?)", name, "swiss", admin)
+    id = $db.execute("SELECT id FROM tournaments WHERE game=?",name).first["id"]
+    players = players.split(",")
+    players_id = []
+
     players.each do |p|
-        $db.execute("INSERT INTO tour_user_relations VALUES(?, ?)", id, p)
+        players_id << $db.execute("SELECT id FROM users WHERE username=?",p)[0]["id"]
+    end
+    players_id.each do |p|
+        $db.execute("INSERT INTO tour_user_relations (user_id,tournament_id) VALUES(?, ?)", p, id)
     end 
+    return(id)
 end
 
 
+
+def get_tour_from_user(user_id)
+    return $db.execute("SELECT tournament_id FROM tour_user_relations WHERE user_id=?", user_id)
+end
+
+def get_users_from_tour(tournament_id)
+    return $db.execute("SELECT user_id FROM tour_user_relations WHERE tournament_id=?", tournament_id)
+end
+
+
+def get_name_from_id(id)
+    return $db.execute("SELECT game FROM tournaments WHERE id=?", id)
+end
+
+def get_tour_from_id(id)
+    return $db.execute("SELECT * FROM tournaments WHERE id=?", id)
+end
+
+def delete_tournament(id)
+    $db.execute("DELETE FROM tournaments WHERE id=?",id)
+    $db.execute("DELETE FROM tour_user_relations WHERE tournament_id=?",id)
+end
+
+def username_from_id(id)
+    $db.execute("SELECT username FROM users WHERE id=?", id)
+end

@@ -8,10 +8,10 @@ html lang="en"
         title Document
     body
         header  
-            img.logo src="/img/logo.png" alt="#"/
+            img.logo  src="/img/logo.png" alt="#"/
             - if user != nil  
                 img.profile-picture src="#{user["profile_picture"]}" alt="#"
-                p.username #{user["username"]}
+                a.username href="/user/show" #{user["username"]}
                 p.points #{user["points"]}
                 article.not-login
                     a.a-class href=('/logout') log out
