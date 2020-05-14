@@ -108,7 +108,8 @@ post('/user/create') do
         #content=array_to_string(content)
         insert_in_db_user("users", columns, content)
     else
-        session[:error] == validation_result
+        p "HELLOO"
+        session[:error] = register_validation(username, password, confirm)
         redirect('/error')
     end
     redirect('/')
@@ -134,7 +135,7 @@ post('/user/login') do
     session[:time] << Time.now.to_i
     
     if login_validation(username, password) == true && time_checker(session[:time]) == true
-        session[:error] = "Login not allowed, try again in 60 seconds"
+        #session[:error] = "Login not allowed, try again in 60 seconds"
         session[:id] = get_id_from_username(username)[0]["id"]
         session[:user_hash] = get_user_from_id(session[:id])
         redirect('/')
@@ -236,6 +237,7 @@ end
 #
 #
 get('/error') do
+    p session[:error]
     slim(:error, locals:{user:session[:user_hash]})
 end
 
